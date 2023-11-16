@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">FocoFit</string>
+    <string name="welcome">Bem vindo ao FocoFit</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="forgot">Esqueceu a senha? Clique aqui</string>
+    <string name="novo">Ainda não é cadastrado? Clique aqui</string>
+    <string name="or">--------------OU--------------</string>
+    <string name="face">F</string>
+    <string name="gmail">G</string>
 </resources>
