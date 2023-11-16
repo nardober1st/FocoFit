@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.fitfoco.focofit"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.fitfoco.focofit"
@@ -66,4 +66,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    val nav_version = "2.7.5"
+    implementation ("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
