@@ -18,4 +18,10 @@ class LoginViewModel @Inject constructor(
             repositoryAuth.login(email, senha, listenerAuth)
         }
     }
+
+    fun forgotPassword(email: String, listenerAuth: ListenerAuth) {
+        viewModelScope.launch {
+            repositoryAuth.forgotPassword(email, listenerAuth)
+        }
+    }
 }

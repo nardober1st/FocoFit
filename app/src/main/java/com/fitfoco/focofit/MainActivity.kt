@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fitfoco.focofit.presentation.home.HomeScreen
 import com.fitfoco.focofit.presentation.login.LoginScreen
+import com.fitfoco.focofit.presentation.others.ForgotPassword
 import com.fitfoco.focofit.presentation.signup.SignupScreen
 import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.fitfoco.focofit.presentation.others.Splash
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("homeScreen") {
                     HomeScreen(navController)
+                }
+                composable("forgotPassword") {
+                    ForgotPassword(navController, loginViewModel)
                 }
             }
         }

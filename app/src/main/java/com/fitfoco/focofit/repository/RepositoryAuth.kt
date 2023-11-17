@@ -25,4 +25,11 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
     ) {
         dataSourceAuth.login(email, senha, listenerAuth)
     }
+
+    fun forgotPassword(
+        email: String,
+        listenerAuth: ListenerAuth
+    ) {
+        dataSourceAuth.forgotPassword(email, listenerAuth)
+    }
 }

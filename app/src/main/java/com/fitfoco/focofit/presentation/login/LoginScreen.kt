@@ -85,8 +85,9 @@ fun LoginScreen(
                     onValueChanged = { email = it },
                     keyboardType = KeyboardType.Email,
                     modifier = Modifier.constrainAs(edtEmail) {
-                            top.linkTo(welcome.bottom, 75.dp)
-                        },
+                        top.linkTo(welcome.bottom, 75.dp)
+                    },
+                    trailingIcon = { null }
                 )
 
                 EditText(
@@ -95,8 +96,9 @@ fun LoginScreen(
                     onValueChanged = { password = it },
                     keyboardType = KeyboardType.Password,
                     modifier = Modifier.constrainAs(edtPassword) {
-                            top.linkTo(edtEmail.bottom)
-                        },
+                        top.linkTo(edtEmail.bottom)
+                    },
+                    trailingIcon = { null }
                 )
 
                 ButtonEdit(onClick = {
@@ -118,7 +120,9 @@ fun LoginScreen(
                             top.linkTo(edtPassword.bottom, 20.dp)
                         })
 
-                TextButton(onClick = { }, modifier = Modifier.constrainAs(txtForget) {
+                TextButton(onClick = {
+                    navController.navigate("forgotPassword")
+                }, modifier = Modifier.constrainAs(txtForget) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(btn.bottom, 20.dp)
@@ -155,7 +159,8 @@ fun LoginScreen(
                         top.linkTo(txtNew.bottom, 10.dp)
                     })
 
-                Button(onClick = { },
+                Button(
+                    onClick = { },
                     modifier = Modifier
                         .border(2.dp, White, ShapeEdit.medium)
                         .constrainAs(face) {
@@ -174,7 +179,8 @@ fun LoginScreen(
                     )
                 }
 
-                Button(onClick = { },
+                Button(
+                    onClick = { },
                     modifier = Modifier
                         .border(2.dp, Black, ShapeEdit.medium)
                         .constrainAs(gmail) {
