@@ -23,7 +23,8 @@ fun EditText(
     value: String,
     onValueChanged: (String) -> Unit,
     keyboardType: KeyboardType,
-    modifier: Modifier
+    modifier: Modifier,
+    trailingIcon: () -> Unit?
 ) {
 
     OutlinedTextField(
@@ -46,6 +47,7 @@ fun EditText(
             unfocusedBorderColor = Outline,
             cursorColor = Blue01
         ),
-        shape = ShapeEdit.small
+        shape = ShapeEdit.small,
+        trailingIcon = {}
         )
 }

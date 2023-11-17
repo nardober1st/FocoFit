@@ -118,7 +118,8 @@ fun SignupScreen(
                         name = it
                     },
                     keyboardType = KeyboardType.Text,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    trailingIcon = { null }
                 )
                 Text(
                     modifier = Modifier
@@ -132,7 +133,8 @@ fun SignupScreen(
                         email = it
                     },
                     keyboardType = KeyboardType.Email,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    trailingIcon = { null }
                 )
                 Text(
                     modifier = Modifier
@@ -146,7 +148,8 @@ fun SignupScreen(
                         apelido = it
                     },
                     keyboardType = KeyboardType.Text,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    trailingIcon = { null }
                 )
                 Text(
                     modifier = Modifier
@@ -160,7 +163,8 @@ fun SignupScreen(
                         senha = it
                     },
                     keyboardType = KeyboardType.Text,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    trailingIcon = { null }
                 )
                 Text(
                     modifier = Modifier

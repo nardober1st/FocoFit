@@ -63,4 +63,25 @@ class DataSourceAuth @Inject constructor(
             }
         }
     }
+
+    fun forgotPassword(email: String, listenerAuth: ListenerAuth) {
+        if (email.isEmpty()) {
+            listenerAuth.onFailure("Email nao pode estar vazio")
+        } else {
+            firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    listenerAuth.onSuccess("Cheque seu email!", "loginScreen")
+                }
+            }
+                .addOnFailureListener { exception ->
+                    val error = when (exception) {
+                        is FirebaseAuthUserCollisionException -> "This account has already been registered"
+                        is FirebaseAuthInvalidCredentialsException -> "Invalid email"
+                        is FirebaseNetworkException -> "No internet connection"
+                        else -> "Error"
+                    }
+                    listenerAuth.onFailure(error)
+                }
+        }
+    }
 }
