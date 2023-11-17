@@ -1,7 +1,5 @@
 package com.fitfoco.focofit.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -10,13 +8,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.fitfoco.focofit.ui.theme.Blue01
-import com.fitfoco.focofit.ui.theme.Blue03
-import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.Outline
-import com.fitfoco.focofit.ui.theme.Shape
 import com.fitfoco.focofit.ui.theme.ShapeEdit
 import com.fitfoco.focofit.ui.theme.White
 
@@ -25,6 +18,7 @@ import com.fitfoco.focofit.ui.theme.White
 fun EditText(
     label: String,
     value: String,
+    modifier: Modifier,
     onValueChanged: (String) -> Unit,
     keyboardType: KeyboardType
 ) {
@@ -32,14 +26,12 @@ fun EditText(
     OutlinedTextField(
         value,
         onValueChanged,
+        modifier,
         maxLines = 1,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         label = {
             Text(text = label)
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = White,
             textColor = Outline,
@@ -51,15 +43,4 @@ fun EditText(
         ),
         shape = ShapeEdit.small
         )
-}
-
-@Preview
-@Composable
-fun EditTextPreview() {
-    EditText(
-        label = "Email",
-        value = "Nome",
-        onValueChanged = {},
-        keyboardType = KeyboardType.Text
-    )
 }
