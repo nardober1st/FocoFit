@@ -3,6 +3,7 @@ package com.fitfoco.focofit.repository
 import com.fitfoco.focofit.datasource.DataSourceAuth
 import com.fitfoco.focofit.listener.ListenerAuth
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -31,5 +32,9 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
         listenerAuth: ListenerAuth
     ) {
         dataSourceAuth.forgotPassword(email, listenerAuth)
+    }
+
+    fun checkUser(): Flow<Boolean>{
+        return dataSourceAuth.checkUser()
     }
 }
