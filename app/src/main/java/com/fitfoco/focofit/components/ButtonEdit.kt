@@ -1,6 +1,9 @@
 package com.fitfoco.focofit.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -21,7 +24,9 @@ fun ButtonEdit(
 
     Button(
         onClick,
-        modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Orange
         ),

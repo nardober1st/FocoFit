@@ -1,4 +1,4 @@
-package com.fitfoco.focofit.presentation.view
+package com.fitfoco.focofit.presentation.signup
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -108,7 +108,8 @@ fun SignupScreen(
                     onValueChanged = {
                         name = it
                     },
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    modifier = Modifier
                 )
                 Text(
                     modifier = Modifier
@@ -121,7 +122,8 @@ fun SignupScreen(
                     onValueChanged = {
                         email = it
                     },
-                    keyboardType = KeyboardType.Email
+                    keyboardType = KeyboardType.Email,
+                    modifier = Modifier
                 )
                 Text(
                     modifier = Modifier
@@ -134,7 +136,8 @@ fun SignupScreen(
                     onValueChanged = {
                         apelido = it
                     },
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    modifier = Modifier
                 )
                 Text(
                     modifier = Modifier
@@ -147,7 +150,8 @@ fun SignupScreen(
                     onValueChanged = {
                         senha = it
                     },
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    modifier = Modifier
                 )
                 Text(
                     modifier = Modifier
@@ -190,7 +194,9 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 ButtonEdit(
                     text = "Salvar",
-                    onClick = {})
+                    onClick = {},
+                    modifier = Modifier
+                )
                 Spacer(modifier = Modifier.padding(top = 20.dp))
             }
         }

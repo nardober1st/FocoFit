@@ -1,4 +1,4 @@
-package com.fitfoco.focofit.view
+package com.fitfoco.focofit.presentation.others
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloat

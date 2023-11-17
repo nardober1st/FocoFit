@@ -1,13 +1,11 @@
-package com.fitfoco.focofit
+package com.fitfoco.focofit.presentation.login
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,10 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import com.fitfoco.focofit.R
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.ui.theme.Black
@@ -40,7 +39,9 @@ import com.fitfoco.focofit.ui.theme.White
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavController
+) {
 
     var email by remember {
         mutableStateOf("")
@@ -79,8 +80,6 @@ fun LoginScreen() {
                     onValueChanged = { email = it },
                     keyboardType = KeyboardType.Email,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp)
                         .constrainAs(edtEmail) {
                             top.linkTo(welcome.bottom, 75.dp)
                         },
@@ -92,20 +91,16 @@ fun LoginScreen() {
                     onValueChanged = { password = it },
                     keyboardType = KeyboardType.Password,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp)
                         .constrainAs(edtPassword) {
                             top.linkTo(edtEmail.bottom)
                         },
                 )
 
                 ButtonEdit(
-                    onClick = {},
+                    onClick = { },
                     text = stringResource(id = R.string.entrar),
                     modifier = Modifier
-                        .fillMaxWidth()
                         .height(53.dp)
-                        .padding(start = 20.dp, end = 20.dp)
                         .constrainAs(btn) {
                             top.linkTo(edtPassword.bottom, 20.dp)
                         }
@@ -128,7 +123,7 @@ fun LoginScreen() {
                 }
 
                 TextButton(
-                    onClick = { },
+                    onClick = { navController.navigate("signupScreen") },
                     modifier = Modifier.constrainAs(txtNew) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
@@ -196,10 +191,4 @@ fun LoginScreen() {
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen()
 }
