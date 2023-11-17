@@ -37,4 +37,8 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
     fun checkUser(): Flow<Boolean>{
         return dataSourceAuth.checkUser()
     }
+
+    fun userName(): Flow<String>{
+        return dataSourceAuth.userName()
+    }
 }

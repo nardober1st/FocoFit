@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class DataSourceAuth @Inject constructor(
@@ -18,6 +20,9 @@ class DataSourceAuth @Inject constructor(
 
     private val _checkUserLogged = MutableStateFlow(false)
     private val checkUserLogged: StateFlow<Boolean> = _checkUserLogged
+
+    private val _name = MutableStateFlow("")
+    private val name: StateFlow<String> = _name
 
     fun signup(
         email: String, senha: String, apelido: String, nome: String, listenerAuth: ListenerAuth
@@ -96,5 +101,17 @@ class DataSourceAuth @Inject constructor(
 
         _checkUserLogged.value = userCheck != null
         return checkUserLogged
+    }
+
+    fun userName(): StateFlow<String>{
+        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+        firestore.collection("user").document(userID).get().addOnCompleteListener {
+            if (it.isSuccessful){
+                val name = it.result.getString("apelido").toString()
+                _name.value = name
+            }
+        }
+        return name
     }
 }

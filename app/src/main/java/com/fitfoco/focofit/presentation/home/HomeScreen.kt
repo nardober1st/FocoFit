@@ -9,29 +9,35 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.ui.theme.White
+import com.fitfoco.focofit.viewmodel.HomeViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
+
+    val nickname = homeViewModel.userName().collectAsState("").value
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "FocoFitApp",
+                        text = "Olá, $nickname",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = White
