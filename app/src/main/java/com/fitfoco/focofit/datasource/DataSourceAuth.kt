@@ -7,11 +7,16 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class DataSourceAuth @Inject constructor(
     private val firebaseAuth: FirebaseAuth, private val firestore: FirebaseFirestore
 ) {
+
+    private val _name = MutableStateFlow("")
+    private val name: StateFlow<String> = _name
 
     fun signup(
         email: String, senha: String, apelido: String, nome: String, listenerAuth: ListenerAuth
@@ -83,5 +88,17 @@ class DataSourceAuth @Inject constructor(
                     listenerAuth.onFailure(error)
                 }
         }
+    }
+
+    fun userName(): StateFlow<String>{
+        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+        firestore.collection("user").document(userID).get().addOnCompleteListener {
+            if (it.isSuccessful){
+                val name = it.result.getString("apelido").toString()
+                _name.value = name
+            }
+        }
+        return name
     }
 }

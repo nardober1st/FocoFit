@@ -15,6 +15,7 @@ import com.fitfoco.focofit.presentation.others.ForgotPassword
 import com.fitfoco.focofit.presentation.signup.SignupScreen
 import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.fitfoco.focofit.presentation.others.Splash
+import com.fitfoco.focofit.viewmodel.HomeViewModel
 import com.fitfoco.focofit.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val signupViewModel: SignupViewModel = hiltViewModel()
             val loginViewModel: LoginViewModel = hiltViewModel()
+            val homeViewModel: HomeViewModel = hiltViewModel()
 
             NavHost(navController = navController, startDestination = "splash") {
                 composable("splash") {
@@ -40,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     SignupScreen(signupViewModel, navController)
                 }
                 composable("homeScreen") {
-                    HomeScreen(navController)
+                    HomeScreen(navController, homeViewModel)
                 }
                 composable("forgotPassword") {
                     ForgotPassword(navController, loginViewModel)
