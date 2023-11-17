@@ -17,4 +17,12 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
     ) {
         dataSourceAuth.signup(email, senha, apelido, nome, listenerAuth)
     }
+
+    fun login(
+        email: String,
+        senha: String,
+        listenerAuth: ListenerAuth
+    ) {
+        dataSourceAuth.login(email, senha, listenerAuth)
+    }
 }
