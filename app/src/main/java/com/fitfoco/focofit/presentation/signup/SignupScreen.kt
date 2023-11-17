@@ -1,6 +1,7 @@
 package com.fitfoco.focofit.presentation.signup
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,20 +23,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.DataPickerButton
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.components.SelectableButton
 import com.fitfoco.focofit.data.model.Gender
+import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.Orange
 import com.fitfoco.focofit.ui.theme.White
+import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
@@ -46,8 +52,11 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SignupScreen(
-    viewModel: SignupViewModel
+    viewModel: SignupViewModel = hiltViewModel(),
+    navController: NavController
 ) {
+
+    val context = LocalContext.current
 
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
@@ -194,7 +203,18 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 ButtonEdit(
                     text = "Salvar",
-                    onClick = {},
+                    onClick = {
+                        viewModel.signup(email, senha, apelido, name, object : ListenerAuth {
+                            override fun onSuccess(message: String, screen: String) {
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                                navController.navigate(screen)
+                            }
+
+                            override fun onFailure(error: String) {
+                                Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    },
                     modifier = Modifier
                 )
                 Spacer(modifier = Modifier.padding(top = 20.dp))
