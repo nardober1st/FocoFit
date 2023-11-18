@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fitfoco.focofit.data.model.Gender
+import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.repository.RepositoryAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,14 +26,12 @@ class SignupViewModel @Inject constructor(
     }
 
     fun signup(
-        email: String,
+        user: User,
         senha: String,
-        apelido: String,
-        nome: String,
         listenerAuth: ListenerAuth
     ) {
         viewModelScope.launch {
-            repositoryAuth.signup(email, senha, apelido, nome, listenerAuth)
+            repositoryAuth.signup(user, senha, listenerAuth)
         }
     }
 }

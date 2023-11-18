@@ -1,5 +1,7 @@
 package com.fitfoco.focofit.datasource
 
+import com.fitfoco.focofit.data.model.Gender
+import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
@@ -23,17 +25,23 @@ class DataSourceAuth @Inject constructor(
     private val name: StateFlow<String> = _name
 
     fun signup(
-        email: String, senha: String, apelido: String, nome: String, listenerAuth: ListenerAuth
+        user: User,
+        senha: String,
+        listenerAuth: ListenerAuth
     ) {
-        if (email.isEmpty() || senha.isEmpty() || apelido.isEmpty() || nome.isEmpty()) {
+        if (user.email.isEmpty() || senha.isEmpty() || user.apelido.isEmpty() || user.name.isEmpty()) {
             listenerAuth.onFailure("Complete todos os campos!")
         } else {
-            firebaseAuth.createUserWithEmailAndPassword(email, senha)
+            firebaseAuth.createUserWithEmailAndPassword(user.email, senha)
                 .addOnCompleteListener { signup ->
                     if (signup.isSuccessful) {
                         val userId = firebaseAuth.currentUser?.uid.toString()
                         val map = hashMapOf(
-                            "email" to email, "apelido" to apelido, "nome" to nome
+                            "email" to user.email,
+                            "apelido" to user.apelido,
+                            "nome" to user.name,
+                            "gender" to user.gender,
+                            "data de nascimento" to user.dataNascimento
                         )
                         firestore.collection("user").document(userId).set(map)
                             .addOnCompleteListener {
