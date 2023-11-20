@@ -2,7 +2,17 @@ package com.fitfoco.focofit.presentation.home
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -10,6 +20,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -27,6 +41,28 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    val items = listOf<BottomNavigationItem>(
+        BottomNavigationItem(
+            title = "Home",
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home
+        ),
+        BottomNavigationItem(
+            title = "Menu",
+            selectedIcon = Icons.Filled.Menu,
+            unselectedIcon = Icons.Outlined.Menu
+        ),
+        BottomNavigationItem(
+            title = "Settings",
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings
+        )
+    )
+
+    var selectedItemIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
 
     val context = LocalContext.current
 
@@ -67,6 +103,30 @@ fun HomeScreen(
                     containerColor = Blue02
                 )
             )
+        },
+        bottomBar = {
+            BottomAppBar(
+                backgroundColor = Blue02
+            ) {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        selected = selectedItemIndex == index,
+                        onClick = {
+                            selectedItemIndex = index
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = if (index == selectedItemIndex) {
+                                    item.selectedIcon
+                                } else {
+                                    item.unselectedIcon
+                                },
+                                contentDescription = null
+                            )
+                        }
+                    )
+                }
+            }
         }
     ) {
 
