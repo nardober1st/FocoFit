@@ -49,8 +49,10 @@ import com.fitfoco.focofit.components.DataPickerButton
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.components.SelectableButton
 import com.fitfoco.focofit.data.model.Gender
+import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.ui.theme.Blue01
+import com.fitfoco.focofit.ui.theme.Blue03
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.Orange
 import com.fitfoco.focofit.ui.theme.Outline
@@ -126,7 +128,8 @@ fun SignupScreen(
                     .padding(start = 20.dp, top = 40.dp),
                 text = "Cadastre-se!",
                 fontWeight = FontWeight.Bold,
-                fontSize = 30.sp
+                color = Blue03,
+                fontSize = 28.sp,
             )
             Column(
                 modifier = Modifier
@@ -186,7 +189,7 @@ fun SignupScreen(
 
                 OutlinedTextField(
                     value = senha,
-                    onValueChange ={senha = it},
+                    onValueChange = { senha = it },
                     label = { Text(text = stringResource(id = R.string.password)) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -256,7 +259,14 @@ fun SignupScreen(
                 ButtonEdit(
                     text = "Salvar",
                     onClick = {
-                        viewModel.signup(email, senha, apelido, name, object : ListenerAuth {
+                        val user = User(
+                            gender = viewModel.selectedGender,
+                            email = email,
+                            apelido = apelido,
+                            name = name,
+                            dataNascimento = formattedDate
+                        )
+                        viewModel.signup(user, senha, object : ListenerAuth {
                             override fun onSuccess(message: String, screen: String) {
                                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                                 navController.navigate(screen)

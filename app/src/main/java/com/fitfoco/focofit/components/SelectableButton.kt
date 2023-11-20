@@ -36,7 +36,7 @@ fun SelectableButton(
                 shape = RoundedCornerShape(100.dp)
             )
             .background(
-                color = if (isSelected) Orange else Color.Transparent,
+                color = if (isSelected) Orange else Color.White,
                 shape = RoundedCornerShape(10.dp)
             )
             .clickable {

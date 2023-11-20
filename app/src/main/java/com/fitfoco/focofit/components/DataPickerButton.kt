@@ -31,7 +31,7 @@ fun DataPickerButton(
                 shape = RoundedCornerShape(10.dp)
             )
             .background(
-                color = Color.Transparent,
+                color = Color.White,
                 shape = RoundedCornerShape(10.dp)
             )
             .clickable {
