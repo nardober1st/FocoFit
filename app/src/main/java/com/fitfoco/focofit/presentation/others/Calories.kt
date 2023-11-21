@@ -167,6 +167,7 @@ fun Calories(
                     }
                 )
                 CardView(
+                    text = "1785",
                     modifier = Modifier.constrainAs(card){
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)

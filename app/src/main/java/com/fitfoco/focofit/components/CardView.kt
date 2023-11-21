@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,7 +20,8 @@ import com.fitfoco.focofit.ui.theme.Shape
 
 @Composable
 fun CardView(
-    modifier: Modifier
+    modifier: Modifier,
+    text: String
 ) {
 
     Card(
@@ -37,11 +37,11 @@ fun CardView(
             val (txt) = createRefs()
 
             Text(
-                text = "1750",
+                text = text,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Black,
-                modifier = Modifier.constrainAs(txt){
+                modifier = Modifier.constrainAs(txt) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -50,10 +50,4 @@ fun CardView(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun CardPreview() {
-    CardView(modifier = Modifier)
 }
