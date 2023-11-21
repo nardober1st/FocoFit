@@ -43,6 +43,7 @@ import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.ui.theme.White
 import com.fitfoco.focofit.viewmodel.HomeViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fitfoco.focofit.ui.theme.BlueBackground
@@ -169,18 +170,24 @@ fun HomeScreen(
                 }
             }
         }
-    ) {
-
-    }
-    Column(
-        modifier = Modifier
-            .padding(top = 62.dp, bottom = 60.dp)
-            .background(BlueBackground)
-            .fillMaxSize()
-    ) {
-        LazyColumn() {
-            itemsIndexed(lazyListItem) { position, _ ->
-                ListPosition(list = lazyListItem, position = position, context = context, navController)
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            color = BlueBackground
+        ) {
+            LazyColumn(
+                Modifier.fillMaxSize()
+            ) {
+                itemsIndexed(lazyListItem) { position, _ ->
+                    ListPosition(
+                        list = lazyListItem,
+                        position = position,
+                        context = context,
+                        navController
+                    )
+                }
             }
         }
     }

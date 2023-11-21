@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.fitfoco.focofit.ui.theme.Blue03
 import com.fitfoco.focofit.ui.theme.Blue04
+import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.util.Screen
 
 @Composable
@@ -53,6 +54,7 @@ fun ListPosition(
                     5 -> navController.navigate(Screen.Notificacoes.route)
                 }
             }
+//            .background(BlueBackground)
     ) {
         Row(
             modifier = Modifier
