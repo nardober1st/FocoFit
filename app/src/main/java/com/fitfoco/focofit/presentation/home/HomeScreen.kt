@@ -2,6 +2,16 @@ package com.fitfoco.focofit.presentation.home
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -32,6 +42,11 @@ import androidx.navigation.NavController
 import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.ui.theme.White
 import com.fitfoco.focofit.viewmodel.HomeViewModel
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.fitfoco.focofit.ui.theme.BlueBackground
+import com.fitfoco.focofit.util.Screen
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +56,32 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    val lazyListItem: MutableList<ListItem> = mutableListOf(
+        ListItem(
+            title = "Indice de massa corporal",
+            icon = Icons.Outlined.Home
+        ),
+        ListItem(
+            title = "Calorias",
+            icon = Icons.Outlined.Home
+        ),
+        ListItem(
+            title = "Objetivos",
+            icon = Icons.Outlined.Home
+        ),
+        ListItem(
+            title = "Alongamentos",
+            icon = Icons.Outlined.Home
+        ),
+        ListItem(
+            title = "Rotinas Diarias",
+            icon = Icons.Outlined.Home
+        ),
+        ListItem(
+            title = "Notificacoes",
+            icon = Icons.Outlined.Home
+        ),
+    )
 
     val items = listOf<BottomNavigationItem>(
         BottomNavigationItem(
@@ -130,5 +171,17 @@ fun HomeScreen(
         }
     ) {
 
+    }
+    Column(
+        modifier = Modifier
+            .padding(top = 62.dp, bottom = 60.dp)
+            .background(BlueBackground)
+            .fillMaxSize()
+    ) {
+        LazyColumn() {
+            itemsIndexed(lazyListItem) { position, _ ->
+                ListPosition(list = lazyListItem, position = position, context = context, navController)
+            }
+        }
     }
 }

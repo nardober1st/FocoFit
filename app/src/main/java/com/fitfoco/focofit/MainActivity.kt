@@ -11,7 +11,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fitfoco.focofit.presentation.home.HomeScreen
 import com.fitfoco.focofit.presentation.login.LoginScreen
+import com.fitfoco.focofit.presentation.others.AlongamentosScreen
+import com.fitfoco.focofit.presentation.others.Calories
 import com.fitfoco.focofit.presentation.others.ForgotPassword
+import com.fitfoco.focofit.presentation.others.IMC
+import com.fitfoco.focofit.presentation.others.NotificacoesScreen
+import com.fitfoco.focofit.presentation.others.ObjetivosScreen
+import com.fitfoco.focofit.presentation.others.RotinasDiariasScreen
 import com.fitfoco.focofit.presentation.signup.SignupScreen
 import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.fitfoco.focofit.presentation.others.Splash
@@ -43,6 +49,24 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("homeScreen") {
                     HomeScreen(navController, homeViewModel)
+                }
+                composable("imc") {
+                    IMC()
+                }
+                composable("caloria") {
+                    Calories()
+                }
+                composable("notificacoes") {
+                    NotificacoesScreen()
+                }
+                composable("objetivos") {
+                    ObjetivosScreen()
+                }
+                composable("alongamentos") {
+                    AlongamentosScreen()
+                }
+                composable("rotinasDiarias") {
+                    RotinasDiariasScreen()
                 }
                 composable("forgotPassword") {
                     ForgotPassword(navController, loginViewModel)
