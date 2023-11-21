@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -30,9 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -46,13 +42,13 @@ import com.fitfoco.focofit.ui.theme.White
 import com.fitfoco.focofit.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "AutoboxingStateCreation")
 @Composable
 fun Calories(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val items = listOf<BottomNavigationItem>(
+    val items = listOf(
         BottomNavigationItem(
             title = "Home",
             selectedIcon = Icons.Filled.Home,
@@ -74,8 +70,6 @@ fun Calories(
         mutableStateOf(0)
     }
 
-
-    val context = LocalContext.current
     val nickname = homeViewModel.userName().collectAsState("").value
 
     Scaffold(
@@ -124,7 +118,7 @@ fun Calories(
         ){
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-                val (name, txt, txtBig, card, kcal) = createRefs()
+                val (name, txt, txt2, txtBig, card, kcal) = createRefs()
 
                 Text(
                     text = " $nickname, ",
@@ -133,12 +127,12 @@ fun Calories(
                     color = Black,
                     modifier = Modifier.constrainAs(name) {
                         start.linkTo(parent.start, 20.dp)
-                        top.linkTo(parent.top, 20.dp)
+                        top.linkTo(parent.top, 35.dp)
                     }
                 )
                 Text(
-                    text = " a quantidade de calorias diárias que você deve consumir é: ",
-                    fontSize = 16.sp,
+                    text = " a quantidade de calorias diárias que você deve",
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.Medium,
                     color = Black,
                     modifier = Modifier
@@ -148,6 +142,19 @@ fun Calories(
                             top.linkTo(name.bottom)
                         }
                 )
+
+                Text(
+                    text = "consumir é: ",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Black,
+                    modifier = Modifier
+                        .constrainAs(txt2) {
+                            start.linkTo(parent.start, 25.dp)
+                            top.linkTo(txt.bottom)
+                        }
+                )
+
                 Text(
                     text = "Emagrecimento",
                     fontSize = 32.sp,
@@ -156,14 +163,14 @@ fun Calories(
                     modifier = Modifier.constrainAs(txtBig) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                        top.linkTo(txt.bottom, 20.dp)
+                        top.linkTo(txt2.bottom, 20.dp)
                     }
                 )
                 CardView(
                     modifier = Modifier.constrainAs(card){
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                        top.linkTo(txtBig.bottom, 20.dp)
+                        top.linkTo(txtBig.bottom, 25.dp)
                     }
                 )
                 Text(
@@ -172,8 +179,8 @@ fun Calories(
                     fontWeight = FontWeight.Bold,
                     color = Black,
                     modifier = Modifier.constrainAs(kcal) {
-                        start.linkTo(card.end, 3.dp)
-                        top.linkTo(txtBig.bottom, 40.dp)
+                        start.linkTo(card.end, 8.dp)
+                        top.linkTo(txtBig.bottom, 70.dp)
                     }
                 )
             }
