@@ -10,4 +10,10 @@
     <string name="face">F</string>
     <string name="gmail">G</string>
     <string name="send">Enviar</string>
+    <string name="abaixo">Abaixo do Normal</string>
+    <string name="normal">Normal</string>
+    <string name="sobre">Sobrepeso</string>
+    <string name="obs1">Obsesidade Grau |</string>
+    <string name="obs2">Obsesidade Grau ||</string>
+    <string name="obs3">Obsesidade Grau |||</string>
 </resources>

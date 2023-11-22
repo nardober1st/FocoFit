@@ -38,6 +38,9 @@ import com.fitfoco.focofit.ui.theme.White
 import com.fitfoco.focofit.viewmodel.HomeViewModel
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import com.fitfoco.focofit.R
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.google.firebase.auth.FirebaseAuth
 
@@ -51,27 +54,27 @@ fun HomeScreen(
     val lazyListItem: MutableList<ListItem> = mutableListOf(
         ListItem(
             title = "Indice de massa corporal",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_imc)
         ),
         ListItem(
             title = "Calorias",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_calorias)
         ),
         ListItem(
             title = "Objetivos",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_obj)
         ),
         ListItem(
             title = "Alongamentos",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_along)
         ),
         ListItem(
             title = "Rotinas Diarias",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_rotinas)
         ),
         ListItem(
             title = "Notificacoes",
-            icon = Icons.Outlined.Home
+            icon = ImageVector.vectorResource(id = R.drawable.ic_not)
         ),
     )
 
