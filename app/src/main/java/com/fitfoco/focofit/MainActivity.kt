@@ -16,7 +16,7 @@ import com.fitfoco.focofit.presentation.others.Calories
 import com.fitfoco.focofit.presentation.others.ForgotPassword
 import com.fitfoco.focofit.presentation.others.IMC
 import com.fitfoco.focofit.presentation.others.NotificacoesScreen
-import com.fitfoco.focofit.presentation.others.ObjetivosScreen
+import com.fitfoco.focofit.presentation.objective.ObjetivosScreen
 import com.fitfoco.focofit.presentation.others.RotinasDiariasScreen
 import com.fitfoco.focofit.presentation.signup.SignupScreen
 import com.fitfoco.focofit.viewmodel.SignupViewModel
