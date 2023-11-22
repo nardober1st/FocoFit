@@ -1,5 +1,6 @@
 package com.fitfoco.focofit.presentation.objective
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,22 +27,29 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.components.SelectableButton
 import com.fitfoco.focofit.data.model.ExerciseFrequency
+import com.fitfoco.focofit.data.model.Objetivo
 import com.fitfoco.focofit.data.model.ObjetivosFit
+import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.viewmodel.ObjetivoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjetivosScreen(
-    viewModel: ObjetivoViewModel = hiltViewModel()
+    viewModel: ObjetivoViewModel = hiltViewModel(),
+    navController: NavController
 ) {
+
+    val context = LocalContext.current
     var peso by remember {
         mutableStateOf("")
     }
@@ -138,14 +146,14 @@ fun ObjetivosScreen(
                         viewModel.onObjetivoClick(ObjetivosFit.Manter)
                     })
                 SelectableButton(
-                    text = "Mulher",
+                    text = "Ganhar",
                     modifier = Modifier,
                     isSelected = viewModel.selectedGoal is ObjetivosFit.Ganhar,
                     onClick = {
                         viewModel.onObjetivoClick(ObjetivosFit.Ganhar)
                     })
                 SelectableButton(
-                    text = "Homem",
+                    text = "Emagracer",
                     modifier = Modifier,
                     isSelected = viewModel.selectedGoal is ObjetivosFit.Emagrecer,
                     onClick = {
@@ -188,6 +196,23 @@ fun ObjetivosScreen(
         ButtonEdit(
             text = "Salvar",
             onClick = {
+                val objetivo = Objetivo(
+                    peso = peso,
+                    altura = altura,
+                    goal = viewModel.selectedGoal,
+                    exerciseFrequency = viewModel.selectedFrequency
+                )
+                viewModel.saveObjetivo(objetivo, object : ListenerAuth {
+                    override fun onSuccess(message: String, screen: String) {
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                        navController.navigate(screen)
+                    }
+
+                    override fun onFailure(error: String) {
+                        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                    }
+
+                })
             },
             modifier = Modifier
         )

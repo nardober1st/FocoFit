@@ -1,7 +1,9 @@
 package com.fitfoco.focofit.di
 
 import com.fitfoco.focofit.datasource.DataSourceAuth
+import com.fitfoco.focofit.datasource.DataSourceObjetivo
 import com.fitfoco.focofit.repository.RepositoryAuth
+import com.fitfoco.focofit.repository.RepositoryObjetivo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -29,6 +31,26 @@ object AppModule {
         firebaseAuth: FirebaseAuth
     ): DataSourceAuth {
         return DataSourceAuth(firebaseAuth, firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDataSourceObjetivo(
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth
+    ): DataSourceObjetivo {
+        return DataSourceObjetivo(
+            firestore,
+            firebaseAuth
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesRepositoryObjetivo(
+        dataSourceObjetivo: DataSourceObjetivo
+    ): RepositoryObjetivo {
+        return RepositoryObjetivo(dataSourceObjetivo)
     }
 
     @Provides

@@ -23,6 +23,7 @@ import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.fitfoco.focofit.presentation.others.Splash
 import com.fitfoco.focofit.viewmodel.HomeViewModel
 import com.fitfoco.focofit.viewmodel.LoginViewModel
+import com.fitfoco.focofit.viewmodel.ObjetivoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
             val signupViewModel: SignupViewModel = hiltViewModel()
             val loginViewModel: LoginViewModel = hiltViewModel()
             val homeViewModel: HomeViewModel = hiltViewModel()
+            val objetivoViewModel: ObjetivoViewModel = hiltViewModel()
 
             NavHost(navController = navController, startDestination = "splash") {
                 composable("splash") {
@@ -60,7 +62,7 @@ class MainActivity : ComponentActivity() {
                     NotificacoesScreen()
                 }
                 composable("objetivos") {
-                    ObjetivosScreen()
+                    ObjetivosScreen(objetivoViewModel, navController)
                 }
                 composable("alongamentos") {
                     AlongamentosScreen()

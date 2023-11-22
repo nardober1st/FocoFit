@@ -1,6 +1,5 @@
 package com.fitfoco.focofit.datasource
 
-import com.fitfoco.focofit.data.model.Gender
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.google.firebase.FirebaseNetworkException
