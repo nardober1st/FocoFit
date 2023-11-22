@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,7 @@ fun ObjetivosScreen(
 ) {
 
     val context = LocalContext.current
+
     var peso by remember {
         mutableStateOf("")
     }
@@ -215,6 +217,10 @@ fun ObjetivosScreen(
                 })
             },
             modifier = Modifier
+        )
+        ButtonEdit(
+            text = "", onClick = {
+            }, modifier = Modifier
         )
     }
 }

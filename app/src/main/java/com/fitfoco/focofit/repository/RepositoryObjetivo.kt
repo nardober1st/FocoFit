@@ -4,6 +4,7 @@ import com.fitfoco.focofit.data.model.Objetivo
 import com.fitfoco.focofit.datasource.DataSourceObjetivo
 import com.fitfoco.focofit.listener.ListenerAuth
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -12,6 +13,14 @@ class RepositoryObjetivo @Inject constructor(
 ) {
 
     fun saveObjetivo(objetivo: Objetivo, listenerAuth: ListenerAuth) {
-        dataSourceObjetivo.saveObjetivos(objetivo, listenerAuth )
+        dataSourceObjetivo.saveObjetivos(objetivo, listenerAuth)
+    }
+
+    fun pesoUser(): Flow<String> {
+        return dataSourceObjetivo.pesoUser()
+    }
+
+    fun alturaUser(): Flow<String> {
+        return dataSourceObjetivo.alturaUSer()
     }
 }

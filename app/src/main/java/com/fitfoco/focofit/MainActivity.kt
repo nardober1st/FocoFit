@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.fitfoco.focofit.data.model.Objetivo
 import com.fitfoco.focofit.presentation.home.HomeScreen
 import com.fitfoco.focofit.presentation.login.LoginScreen
 import com.fitfoco.focofit.presentation.others.AlongamentosScreen
@@ -25,6 +26,7 @@ import com.fitfoco.focofit.viewmodel.HomeViewModel
 import com.fitfoco.focofit.viewmodel.LoginViewModel
 import com.fitfoco.focofit.viewmodel.ObjetivoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     IMC()
                 }
                 composable("caloria") {
-                    Calories()
+                    Calories(homeViewModel)
                 }
                 composable("notificacoes") {
                     NotificacoesScreen()

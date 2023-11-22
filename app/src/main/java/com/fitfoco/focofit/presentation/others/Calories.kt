@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomAppBar
+import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -34,12 +35,15 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fitfoco.focofit.components.CardView
+import com.fitfoco.focofit.data.model.Objetivo
 import com.fitfoco.focofit.presentation.home.BottomNavigationItem
 import com.fitfoco.focofit.ui.theme.Black
 import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.White
 import com.fitfoco.focofit.viewmodel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "AutoboxingStateCreation")
@@ -47,6 +51,9 @@ import com.fitfoco.focofit.viewmodel.HomeViewModel
 fun Calories(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+
+    val peso = homeViewModel.pesoUser().collectAsState(initial = "").value
+    val altura = homeViewModel.alturaUser().collectAsState(initial = "").value
 
     val items = listOf(
         BottomNavigationItem(
@@ -113,9 +120,9 @@ fun Calories(
             }
         }
     ) {
-        Column (
+        Column(
             modifier = Modifier.background(BlueBackground)
-        ){
+        ) {
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
                 val (name, txt, txt2, txtBig, card, kcal) = createRefs()
@@ -167,8 +174,8 @@ fun Calories(
                     }
                 )
                 CardView(
-                    text = "1785",
-                    modifier = Modifier.constrainAs(card){
+                    text = "",
+                    modifier = Modifier.constrainAs(card) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         top.linkTo(txtBig.bottom, 25.dp)
