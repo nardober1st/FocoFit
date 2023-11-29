@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.fitfoco.focofit.navigation.Route
 import com.fitfoco.focofit.presentation.home.HomeScreen
 import com.fitfoco.focofit.presentation.login.LoginScreen
 import com.fitfoco.focofit.presentation.others.AlongamentosScreen
@@ -17,6 +18,8 @@ import com.fitfoco.focofit.presentation.others.ForgotPassword
 import com.fitfoco.focofit.presentation.others.IMC
 import com.fitfoco.focofit.presentation.others.NotificacoesScreen
 import com.fitfoco.focofit.presentation.objective.ObjetivosScreen
+import com.fitfoco.focofit.presentation.others.GraphScreen
+import com.fitfoco.focofit.presentation.others.News
 import com.fitfoco.focofit.presentation.others.RotinasDiariasScreen
 import com.fitfoco.focofit.presentation.signup.SignupScreen
 import com.fitfoco.focofit.viewmodel.SignupViewModel
@@ -40,38 +43,44 @@ class MainActivity : ComponentActivity() {
             val objetivoViewModel: ObjetivoViewModel = hiltViewModel()
 
             NavHost(navController = navController, startDestination = "splash") {
-                composable("splash") {
+                composable(Route.SplashScreen.route) {
                     Splash(navController)
                 }
-                composable("loginScreen") {
+                composable(Route.LoginScreen.route) {
                     LoginScreen(navController, loginViewModel)
                 }
-                composable("signupScreen") {
+                composable(Route.SignupScreen.route) {
                     SignupScreen(signupViewModel, navController)
                 }
-                composable("homeScreen") {
+                composable(Route.HomeScreen.route) {
                     HomeScreen(navController, homeViewModel)
                 }
-                composable("imc") {
+                composable(Route.ImcScreen.route) {
                     IMC()
                 }
-                composable("caloria") {
+                composable(Route.CaloriaScreen.route) {
                     Calories()
                 }
-                composable("notificacoes") {
+                composable(Route.NotificacoesScreen.route) {
                     NotificacoesScreen()
                 }
-                composable("objetivos") {
+                composable(Route.ObjetivosScreen.route) {
                     ObjetivosScreen(objetivoViewModel, navController)
                 }
-                composable("alongamentos") {
+                composable(Route.AlongamentosScreen.route) {
                     AlongamentosScreen()
                 }
-                composable("rotinasDiarias") {
+                composable(Route.RotinasDiariasScreen.route) {
                     RotinasDiariasScreen()
                 }
-                composable("forgotPassword") {
+                composable(Route.ForgotPasswordScreen.route) {
                     ForgotPassword(navController, loginViewModel)
+                }
+                composable(Route.NewsScreen.route) {
+                    News(navController)
+                }
+                composable(Route.GraphScreen.route) {
+                    GraphScreen(navController)
                 }
             }
         }

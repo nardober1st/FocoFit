@@ -41,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.fitfoco.focofit.R
+import com.fitfoco.focofit.components.BottomBarComponent
+import com.fitfoco.focofit.navigation.AppNavigator
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.google.firebase.auth.FirebaseAuth
 
@@ -96,9 +98,9 @@ fun HomeScreen(
         )
     )
 
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
+//    var selectedItemIndex by rememberSaveable {
+//        mutableStateOf(0)
+//    }
 
     val context = LocalContext.current
 
@@ -141,28 +143,7 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                backgroundColor = Blue02
-            ) {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = selectedItemIndex == index,
-                        onClick = {
-                            selectedItemIndex = index
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = if (index == selectedItemIndex) {
-                                    item.selectedIcon
-                                } else {
-                                    item.unselectedIcon
-                                },
-                                contentDescription = null
-                            )
-                        }
-                    )
-                }
-            }
+            AppNavigator()
         }
     ) { paddingValues ->
         Surface(
