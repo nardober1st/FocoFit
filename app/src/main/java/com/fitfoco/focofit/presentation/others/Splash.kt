@@ -30,8 +30,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fitfoco.focofit.R
+import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
+import com.fitfoco.focofit.presentation.login.LoginViewModel
+import com.fitfoco.focofit.presentation.main.MainViewModel
 import com.fitfoco.focofit.ui.theme.Blue03
 import com.fitfoco.focofit.ui.theme.BlueBackground
 import kotlinx.coroutines.delay
@@ -40,9 +44,11 @@ import kotlinx.coroutines.delay
 fun Splash(
     navController: NavController
 ){
+
+    val loginViewModel: LoginViewModel = hiltViewModel()
+
     LaunchedEffect(key1 = true){
         delay(2500)
-        navController.navigate("loginScreen")
     }
     SplashScreen()
 }

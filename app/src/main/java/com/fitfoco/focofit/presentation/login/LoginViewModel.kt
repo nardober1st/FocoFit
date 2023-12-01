@@ -1,4 +1,4 @@
-package com.fitfoco.focofit.viewmodel
+package com.fitfoco.focofit.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +26,4 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun checkUser(): Flow<Boolean>{
-        return repositoryAuth.checkUser()
-    }
 }

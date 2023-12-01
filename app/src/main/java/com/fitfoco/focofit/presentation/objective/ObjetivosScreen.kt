@@ -34,15 +34,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.EditText
+import com.fitfoco.focofit.components.ObjectiveEditText
 import com.fitfoco.focofit.components.SelectableButton
 import com.fitfoco.focofit.data.model.ExerciseFrequency
 import com.fitfoco.focofit.data.model.Objetivo
 import com.fitfoco.focofit.data.model.ObjetivosFit
 import com.fitfoco.focofit.listener.ListenerAuth
+import com.fitfoco.focofit.navigation.homenavgraph.Screen
 import com.fitfoco.focofit.ui.theme.BlueBackground
-import com.fitfoco.focofit.viewmodel.ObjetivoViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ObjetivosScreen(
     viewModel: ObjetivoViewModel = hiltViewModel(),
@@ -56,21 +56,7 @@ fun ObjetivosScreen(
     var altura by rememberSaveable {
         mutableStateOf("")
     }
-    var expanded by remember {
-        mutableStateOf(false)
-    }
 
-    val list = listOf<ExerciseFrequency>(
-        ExerciseFrequency.SevenWeek,
-        ExerciseFrequency.OnceAWeek,
-        ExerciseFrequency.FourWeek
-    )
-
-    val icon = if (expanded) {
-        Icons.Filled.KeyboardArrowUp
-    } else {
-        Icons.Filled.KeyboardArrowDown
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -161,51 +147,35 @@ fun ObjetivosScreen(
                     })
             }
         }
-        Column(Modifier.padding(20.dp)) {
-            OutlinedTextField(
-                value = viewModel.selectedFrequency.frequency,
-                onValueChange = {
-                    viewModel.selectedFrequency.frequency = it
-                },
-                trailingIcon = {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier.clickable {
-                            expanded = !expanded
-                        })
-                }
+        Column() {
+            Text(
+                text = "Frequenca fisica semanal:",
+                modifier = Modifier.padding(top = 20.dp, start = 20.dp, bottom = 10.dp)
             )
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = {
-                    expanded = false
-                }
-            ) {
-                list.forEach { label ->
-                    DropdownMenuItem(
-                        onClick = {
-                            viewModel.selectedFrequency = label
-                        }) {
-                        Text(text = label.frequency)
-                    }
-                }
-            }
+            ObjectiveEditText()
         }
         Spacer(modifier = Modifier.padding(top = 80.dp))
         ButtonEdit(
             text = "Salvar",
             onClick = {
+                val alturaFloat = altura.toFloat() / 100
+                val imcResult = peso.toFloat() / (alturaFloat * alturaFloat)
+                val imcFormatted = String.format("%.2f", imcResult) // formatting BMI to two decimal places
                 val objetivo = Objetivo(
                     peso = peso,
                     altura = altura,
                     goal = viewModel.selectedGoal,
-                    exerciseFrequency = viewModel.selectedFrequency
+                    exerciseFrequency = viewModel.selectedFrequency,
+                    imcResult = imcFormatted
                 )
                 viewModel.saveObjetivo(objetivo, object : ListenerAuth {
                     override fun onSuccess(message: String, screen: String) {
                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                        navController.navigate(screen)
+                        navController.navigate(screen) {
+                            popUpTo(Screen.Objetivos.route) {
+                                inclusive = true
+                            }
+                        }
                     }
 
                     override fun onFailure(error: String) {

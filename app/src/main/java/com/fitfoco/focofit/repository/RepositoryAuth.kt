@@ -33,11 +33,15 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
         dataSourceAuth.forgotPassword(email, listenerAuth)
     }
 
-    fun checkUser(): Flow<Boolean>{
-        return dataSourceAuth.checkUser()
+    fun isUserSignedIn(): Boolean{
+        return dataSourceAuth.isUserSignedIn()
     }
 
     fun userName(): Flow<String>{
         return dataSourceAuth.userName()
+    }
+
+    fun signUserOut() {
+        dataSourceAuth.signUserOut()
     }
 }

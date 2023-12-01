@@ -23,7 +23,7 @@ import com.fitfoco.focofit.R
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.ui.theme.BlueBackground
-import com.fitfoco.focofit.viewmodel.LoginViewModel
+import com.fitfoco.focofit.presentation.login.LoginViewModel
 
 @Composable
 fun ForgotPassword(

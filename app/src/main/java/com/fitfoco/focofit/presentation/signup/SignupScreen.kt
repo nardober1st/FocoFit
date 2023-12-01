@@ -58,7 +58,6 @@ import com.fitfoco.focofit.ui.theme.Orange
 import com.fitfoco.focofit.ui.theme.Outline
 import com.fitfoco.focofit.ui.theme.ShapeEdit
 import com.fitfoco.focofit.ui.theme.White
-import com.fitfoco.focofit.viewmodel.SignupViewModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker

@@ -21,8 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +42,8 @@ import com.fitfoco.focofit.R
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.EditText
 import com.fitfoco.focofit.listener.ListenerAuth
+import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
+import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.fitfoco.focofit.ui.theme.Black
 import com.fitfoco.focofit.ui.theme.Black80
 import com.fitfoco.focofit.ui.theme.Blue01
@@ -52,7 +52,6 @@ import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.Outline
 import com.fitfoco.focofit.ui.theme.ShapeEdit
 import com.fitfoco.focofit.ui.theme.White
-import com.fitfoco.focofit.viewmodel.LoginViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,16 +61,6 @@ fun LoginScreen(
 ) {
 
     val context = LocalContext.current
-
-    var userCheck = viewModel.checkUser().collectAsState(initial = false).value
-
-    LaunchedEffect(userCheck){
-        if (userCheck){
-            navController.navigate("homeScreen")
-        } else {
-            userCheck = false
-        }
-    }
 
     var email by remember {
         mutableStateOf("")
@@ -161,7 +150,11 @@ fun LoginScreen(
                     viewModel.login(email, password, object : ListenerAuth {
                         override fun onSuccess(message: String, screen: String) {
                             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                            navController.navigate(screen)
+                            navController.navigate(RootGraphRoutes.MainGraphRoute.route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    inclusive = true
+                                }
+                            }
                         }
 
                         override fun onFailure(error: String) {
@@ -177,7 +170,7 @@ fun LoginScreen(
                         })
 
                 TextButton(onClick = {
-                    navController.navigate("forgotPassword")
+                    navController.navigate(AuthRoutes.ForgotPassword.route)
                 }, modifier = Modifier.constrainAs(txtForget) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -191,7 +184,7 @@ fun LoginScreen(
                     )
                 }
 
-                TextButton(onClick = { navController.navigate("signupScreen") },
+                TextButton(onClick = { navController.navigate(AuthRoutes.SignupRoute.route) },
                     modifier = Modifier.constrainAs(txtNew) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)

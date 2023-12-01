@@ -1,7 +1,11 @@
 package com.fitfoco.focofit.datasource
 
+import android.nfc.Tag
+import android.util.Log
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
+import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
+import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -44,7 +48,10 @@ class DataSourceAuth @Inject constructor(
                         )
                         firestore.collection("user").document(userId).set(map)
                             .addOnCompleteListener {
-                                listenerAuth.onSuccess("Conta criada com sucesso", "loginScreen")
+                                listenerAuth.onSuccess(
+                                    "Conta criada com sucesso",
+                                    AuthRoutes.LoginRoute.route
+                                )
                             }.addOnFailureListener {
                                 listenerAuth.onFailure("Erro inesperado!")
                             }
@@ -68,6 +75,7 @@ class DataSourceAuth @Inject constructor(
             firebaseAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener {
                 if (it.isSuccessful) {
                     listenerAuth.onSuccess("Logado com sucesso!", "homeScreen")
+                    Log.d("TAGY", "User: ${firebaseAuth.currentUser?.email.toString()}")
                 }
             }.addOnFailureListener { exception ->
                 val error = when (exception) {
@@ -76,6 +84,7 @@ class DataSourceAuth @Inject constructor(
                     else -> "Invalid email"
                 }
                 listenerAuth.onFailure(error)
+                Log.d("TAGY", "User: ${firebaseAuth.currentUser.toString()}")
             }
         }
     }
@@ -86,7 +95,7 @@ class DataSourceAuth @Inject constructor(
         } else {
             firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    listenerAuth.onSuccess("Cheque seu email!", "loginScreen")
+                    listenerAuth.onSuccess("Cheque seu email!", AuthRoutes.LoginRoute.route)
                 }
             }
                 .addOnFailureListener { exception ->
@@ -101,22 +110,34 @@ class DataSourceAuth @Inject constructor(
         }
     }
 
-    fun checkUser(): Flow<Boolean> {
-        val userCheck = FirebaseAuth.getInstance().currentUser
-
-        _checkUserLogged.value = userCheck != null
-        return checkUserLogged
+    //    fun checkUser(): Flow<Boolean> {
+//        val userCheck = FirebaseAuth.getInstance().currentUser
+//
+//        _checkUserLogged.value = userCheck != null
+//        return checkUserLogged
+//    }
+    fun isUserSignedIn(): Boolean {
+        Log.d("TAGY", "User: ${firebaseAuth.currentUser.toString()}")
+        return firebaseAuth.currentUser != null
     }
 
-    fun userName(): StateFlow<String>{
+    fun userName(): StateFlow<String> {
         val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         firestore.collection("user").document(userID).get().addOnCompleteListener {
-            if (it.isSuccessful){
+            if (it.isSuccessful) {
                 val name = it.result.getString("apelido").toString()
                 _name.value = name
             }
         }
         return name
+    }
+
+    fun signUserOut() {
+        val user = firebaseAuth.currentUser?.uid
+        if (user != null) {
+            firebaseAuth.signOut()
+        }
+        Log.d("TAGY", "User: ${user.toString()}")
     }
 }

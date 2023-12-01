@@ -1,4 +1,4 @@
-package com.fitfoco.focofit.viewmodel
+package com.fitfoco.focofit.presentation.signup
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

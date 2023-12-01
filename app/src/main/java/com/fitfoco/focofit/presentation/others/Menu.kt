@@ -6,20 +6,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.fitfoco.focofit.components.BottomBarComponent
-import com.fitfoco.focofit.navigation.AppNavigator
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GraphScreen(navController: NavController) {
+fun MenuScreen() {
 
-
-    Scaffold(
-        bottomBar = {
-            AppNavigator()
-        }
-    ) {
-        Text(text = "graph")
-    }
+        Text(text = "menu")
 }

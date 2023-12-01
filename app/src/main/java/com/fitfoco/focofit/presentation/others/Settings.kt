@@ -9,9 +9,8 @@ import androidx.navigation.NavController
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun News(navController: NavController) {
+fun SettingsScreen() {
 
-        Text(text = "new")
+        Text(text = "settings")
 }
