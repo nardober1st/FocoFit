@@ -40,7 +40,7 @@ fun EditText(
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = White,
-            textColor = Outline,
+//            text = Outline,
             focusedLabelColor = Blue01,
             unfocusedLabelColor = Outline,
             focusedBorderColor = Blue01,
