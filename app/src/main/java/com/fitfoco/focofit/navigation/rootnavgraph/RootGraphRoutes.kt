@@ -5,4 +5,5 @@ sealed class RootGraphRoutes(val route: String) {
     object AuthGraphRoute : RootGraphRoutes(route = "auth")
     object MainGraphRoute : RootGraphRoutes(route = "main")
     object HomeGraphRoute : RootGraphRoutes(route = "home")
+    object SplashRoute : RootGraphRoutes(route = "splash")
 }

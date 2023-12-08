@@ -72,6 +72,7 @@ fun MainScreen(
                         alertDialog.setMessage("Se voce sair, precisara logar novamente!")
                         alertDialog.setPositiveButton("Sim") { _, _ ->
                             onEvent(MainEvent.OnSignOutClick)
+//                            mainViewModel.onSignUserOut()
                         }
                         alertDialog.setNegativeButton("Nao") { _, _ -> }
                             .show()

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.fitfoco.focofit.navigation.authnavgraph.authNavGraph
 import com.fitfoco.focofit.navigation.homenavgraph.homeNavGraph
 import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.fitfoco.focofit.presentation.home.HomeScreen

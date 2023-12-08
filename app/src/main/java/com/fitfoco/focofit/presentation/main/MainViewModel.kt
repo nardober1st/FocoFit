@@ -9,8 +9,11 @@ import com.fitfoco.focofit.repository.RepositoryAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +26,11 @@ class MainViewModel @Inject constructor(
     private val _name = MutableStateFlow("")
     private val name: StateFlow<String> = _name
 
-    private var _mainChannelEvent = Channel<MainEvent>()
-    var mainChannelEvent = _mainChannelEvent.receiveAsFlow()
+    private var _mainChannelEvent = MutableSharedFlow<MainEvent>()
+    var mainChannelEvent = _mainChannelEvent.asSharedFlow()
+
+//    private var _mainChannelEvent = Channel<MainEvent>()
+//    var mainChannelEvent = _mainChannelEvent.receiveAsFlow()
 
     var mainState by mutableStateOf(MainState())
         private set
@@ -46,19 +52,20 @@ class MainViewModel @Inject constructor(
                 )
                 onSignUserOut()
             }
-
-            else -> {}
         }
     }
 
     private fun onSignUserOut() {
         viewModelScope.launch {
             repositoryAuth.signUserOut()
-            _mainChannelEvent.send(MainEvent.OnSignOutClick)
+            _mainChannelEvent.emit(MainEvent.OnSignOutClick)
+            mainState = mainState.copy(
+                isSignOutClicked = false
+            )
         }
     }
 
-    fun isUserSignedIn(): Boolean {
+    fun isUserSignedIn(): Flow<Boolean> {
         return repositoryAuth.isUserSignedIn()
     }
 }

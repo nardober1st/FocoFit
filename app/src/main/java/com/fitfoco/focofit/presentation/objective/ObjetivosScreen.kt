@@ -147,7 +147,7 @@ fun ObjetivosScreen(
                     })
             }
         }
-        Column() {
+        Column {
             Text(
                 text = "Frequenca fisica semanal:",
                 modifier = Modifier.padding(top = 20.dp, start = 20.dp, bottom = 10.dp)

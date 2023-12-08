@@ -2,6 +2,7 @@ package com.fitfoco.focofit.navigation.authnavgraph
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -31,7 +32,6 @@ fun NavGraphBuilder.authNavGraph(
         }
         composable(route = AuthRoutes.SignupRoute.route) {
             val signupViewModel: SignupViewModel = hiltViewModel()
-
             SignupScreen(
                 signupViewModel,
                 navController,

@@ -51,6 +51,7 @@ import com.fitfoco.focofit.components.SelectableButton
 import com.fitfoco.focofit.data.model.Gender
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
+import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
 import com.fitfoco.focofit.ui.theme.Blue01
 import com.fitfoco.focofit.ui.theme.Blue03
 import com.fitfoco.focofit.ui.theme.BlueBackground

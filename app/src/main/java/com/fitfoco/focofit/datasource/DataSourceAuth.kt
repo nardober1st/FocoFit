@@ -1,20 +1,20 @@
 package com.fitfoco.focofit.datasource
 
-import android.nfc.Tag
 import android.util.Log
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
-import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
 class DataSourceAuth @Inject constructor(
@@ -110,15 +110,21 @@ class DataSourceAuth @Inject constructor(
         }
     }
 
-    //    fun checkUser(): Flow<Boolean> {
-//        val userCheck = FirebaseAuth.getInstance().currentUser
-//
-//        _checkUserLogged.value = userCheck != null
-//        return checkUserLogged
-//    }
-    fun isUserSignedIn(): Boolean {
-        Log.d("TAGY", "User: ${firebaseAuth.currentUser.toString()}")
-        return firebaseAuth.currentUser != null
+    fun isUserSignedIn(): Flow<Boolean> {
+        return callbackFlow {
+            val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+                val user = firebaseAuth.currentUser
+                trySend(user != null)
+            }
+
+            // Add the listener to FirebaseAuth
+            firebaseAuth.addAuthStateListener(authStateListener)
+
+            // Remove the listener when the flow is cancelled
+            awaitClose {
+                firebaseAuth.removeAuthStateListener(authStateListener)
+            }
+        }
     }
 
     fun userName(): StateFlow<String> {
