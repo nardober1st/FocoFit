@@ -125,7 +125,7 @@ fun LoginScreen(
                         },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         containerColor = White,
-                        textColor = Outline,
+//                        textColor = Outline,
                         focusedLabelColor = Blue01,
                         unfocusedLabelColor = Outline,
                         focusedBorderColor = Blue01,
