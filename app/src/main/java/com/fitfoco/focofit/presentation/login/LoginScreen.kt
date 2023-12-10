@@ -150,11 +150,8 @@ fun LoginScreen(
                     viewModel.login(email, password, object : ListenerAuth {
                         override fun onSuccess(message: String, screen: String) {
                             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                            navController.navigate(RootGraphRoutes.MainGraphRoute.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    inclusive = true
-                                }
-                            }
+                            navController.popBackStack()
+                            navController.navigate(RootGraphRoutes.MainGraphRoute.route)
                         }
 
                         override fun onFailure(error: String) {

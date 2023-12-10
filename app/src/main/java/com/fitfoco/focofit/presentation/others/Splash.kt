@@ -1,6 +1,7 @@
 package com.fitfoco.focofit.presentation.others
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,20 +37,53 @@ import androidx.navigation.NavController
 import com.fitfoco.focofit.R
 import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.fitfoco.focofit.presentation.login.LoginViewModel
+import com.fitfoco.focofit.presentation.main.MainEvent
 import com.fitfoco.focofit.presentation.main.MainViewModel
 import com.fitfoco.focofit.ui.theme.Blue03
 import com.fitfoco.focofit.ui.theme.BlueBackground
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 @Composable
 fun Splash(
-    navController: NavController
+    navController: NavController,
 ){
 
     val loginViewModel: LoginViewModel = hiltViewModel()
 
-    LaunchedEffect(key1 = true){
+    val mainViewModel: MainViewModel = hiltViewModel()
+
+    val isUserSignedIn by mainViewModel.isUserSignedIn().collectAsState(initial = false)
+
+//    // Listen for changes in sign-out status using LaunchedEffect
+//    LaunchedEffect(isUserSignedIn) {
+//        mainViewModel.mainChannelEvent.collect { event ->
+//            Log.d("TAGY", "Received event: $event")
+//            when (event) {
+//                is MainEvent.OnSignOutClick -> {
+//                    Log.d("TAGY", "Navigating to AuthGraphRoute")
+//                    // Update the navigation to AuthGraph after sign-out event
+//                    navController.popBackStack()
+//                    navController.navigate(RootGraphRoutes.AuthGraphRoute.route) {
+////                        // Clear back stack so pressing back won't return to MainGraph
+////                        Log.d("TAGY", "User: ${FirebaseAuth.getInstance().currentUser}")
+////                        popUpTo(navController.graph.startDestinationId) {
+////                            inclusive = true
+////                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    LaunchedEffect(key1 = true) {
         delay(2500)
+        // Check if the user is signed in and navigate accordingly
+        navController.popBackStack()
+        navController.navigate(
+            if (isUserSignedIn) RootGraphRoutes.MainGraphRoute.route
+            else RootGraphRoutes.AuthGraphRoute.route
+        )
     }
     SplashScreen()
 }

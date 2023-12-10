@@ -13,9 +13,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fitfoco.focofit.navigation.authnavgraph.authNavGraph
+import com.fitfoco.focofit.navigation.homenavgraph.Screen
 import com.fitfoco.focofit.presentation.main.MainScreen
 import com.fitfoco.focofit.presentation.main.MainEvent
 import com.fitfoco.focofit.presentation.main.MainViewModel
+import com.fitfoco.focofit.presentation.others.Splash
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.collect
 
@@ -35,12 +37,13 @@ fun RootNavigationGraph(navController: NavHostController) {
                 is MainEvent.OnSignOutClick -> {
                     Log.d("TAGY", "Navigating to AuthGraphRoute")
                     // Update the navigation to AuthGraph after sign-out event
+                    navController.popBackStack()
                     navController.navigate(RootGraphRoutes.AuthGraphRoute.route) {
-                        // Clear back stack so pressing back won't return to MainGraph
-                        Log.d("TAGY", "User: ${FirebaseAuth.getInstance().currentUser}")
-                        popUpTo(navController.graph.startDestinationId) {
-                            inclusive = true
-                        }
+//                        // Clear back stack so pressing back won't return to MainGraph
+//                        Log.d("TAGY", "User: ${FirebaseAuth.getInstance().currentUser}")
+//                        popUpTo(navController.graph.startDestinationId) {
+//                            inclusive = true
+//                        }
                     }
                 }
             }
@@ -50,8 +53,11 @@ fun RootNavigationGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = RootGraphRoutes.RootGraphRoute.route,
-        startDestination = if (isUserSignedIn) RootGraphRoutes.MainGraphRoute.route else RootGraphRoutes.AuthGraphRoute.route
+        startDestination = Screen.Splash.route
     ) {
+        composable(route = Screen.Splash.route) {
+            Splash(navController = navController)
+        }
         authNavGraph(navController)
         composable(route = RootGraphRoutes.MainGraphRoute.route) {
             MainScreen(

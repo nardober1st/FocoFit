@@ -2,10 +2,17 @@ package com.fitfoco.focofit.presentation.main
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,18 +28,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.ui.theme.White
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.toLowerCase
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.fitfoco.focofit.R
+import com.fitfoco.focofit.datasource.DataSourceImg
 import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
 import com.fitfoco.focofit.navigation.mainnavgraph.BottomBarScreen
 import com.fitfoco.focofit.navigation.mainnavgraph.MainNavGraph
@@ -54,6 +73,20 @@ fun MainScreen(
     val mainViewModel: MainViewModel = hiltViewModel()
     val nickname = mainViewModel.userName().collectAsState("").value
 
+    val db = DataSourceImg()
+
+    var fotoPerfil by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val selecionarFoto =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                fotoPerfil = uri
+                db.salvePic(fotoPerfil!!, context)
+            }
+        }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -62,8 +95,39 @@ fun MainScreen(
                         text = "Olá, $nickname",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = White
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 10.dp)
                     )
+                },
+                navigationIcon = {
+                    if (fotoPerfil != null) {
+                        val painter = rememberAsyncImagePainter(model = fotoPerfil)
+                        Image(
+                            painter = painter,
+                            contentDescription = "",
+                            modifier = Modifier
+                                .padding(start = 10.dp)
+                                .width(50.dp)
+                                .height(50.dp)
+                                .clip(CircleShape)
+                        )
+                    } else {
+                        IconButton(onClick = {
+                            val alertDialog = AlertDialog.Builder(context)
+                            alertDialog.setTitle("Deseja escolher uma nova foto de perfil?")
+                            alertDialog.setNegativeButton("Não") { _, _ -> }
+                            alertDialog
+                                .setPositiveButton("Sim") { _, _ ->
+                                    selecionarFoto.launch("image/*")
+                                }
+                                .show()
+                        }) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_about),
+                                contentDescription = null
+                            )
+                        }
+                    }
                 },
                 actions = {
                     TextButton(onClick = {
@@ -72,7 +136,6 @@ fun MainScreen(
                         alertDialog.setMessage("Se voce sair, precisara logar novamente!")
                         alertDialog.setPositiveButton("Sim") { _, _ ->
                             onEvent(MainEvent.OnSignOutClick)
-//                            mainViewModel.onSignUserOut()
                         }
                         alertDialog.setNegativeButton("Nao") { _, _ -> }
                             .show()
@@ -81,7 +144,7 @@ fun MainScreen(
                             text = "Out",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = White
+                            color = Color.White
                         )
                     }
                 },
@@ -114,18 +177,37 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val bottomBarDestination = screens.any { it.route == currentDestination?.route }
-    if (bottomBarDestination) {
-        NavigationBar(
-            containerColor = Blue02
-        ) {
-            screens.forEach { screen ->
-                AddItem(
-                    screen = screen,
-                    currentDestination = currentDestination,
-                    navController = navController
-                )
-            }
+    /*
+        THIS WAY WE CAN HIDE THE BOTTOM BAR,
+        IF OUR CURRENT DESTINATION IS NOT ONE
+        OF THE BOTTOM BAR DESTINATION
+        EX: HOME, MENU, SETTINGS
+    */
+
+//    val bottomBarDestination = screens.any { it.route == currentDestination?.route }
+//    if (bottomBarDestination) {
+//        NavigationBar(
+//            containerColor = Blue02
+//        ) {
+//            screens.forEach { screen ->
+//                AddItem(
+//                    screen = screen,
+//                    currentDestination = currentDestination,
+//                    navController = navController
+//                )
+//            }
+//        }
+//    }
+
+    NavigationBar(
+        containerColor = Blue02
+    ) {
+        screens.forEach { screen ->
+            AddItem(
+                screen = screen,
+                currentDestination = currentDestination,
+                navController = navController
+            )
         }
     }
 }
@@ -158,8 +240,11 @@ fun RowScope.AddItem(
         selected = isSelected,
         onClick = {
             navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id)
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
                 launchSingleTop = true
+                restoreState = true
             }
         },
         colors = NavigationBarItemDefaults.colors(
