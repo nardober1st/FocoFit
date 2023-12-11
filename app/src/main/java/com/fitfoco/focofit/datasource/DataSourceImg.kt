@@ -71,4 +71,12 @@ class DataSourceImg {
 
             }).submit()
     }
+//    fun getImage(image: Uri, context: Context){
+//        val docRef = db.collection("image").document(userID)
+//        docRef.addSnapshotListener { doc, _ ->
+//            if (doc != null){
+//                Glide.with(context).load(doc.getString("pic")).placeholder(R.drawable.ic_about).into(image)
+//            }
+//        }
+//    }
 }

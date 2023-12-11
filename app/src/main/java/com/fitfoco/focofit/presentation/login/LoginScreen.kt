@@ -216,7 +216,7 @@ fun LoginScreen(
                     })
 
                 Button(
-                    onClick = { },
+                    onClick = { /* Criar conta no Facebook*/ },
                     modifier = Modifier
                         .border(2.dp, White, ShapeEdit.medium)
                         .constrainAs(face) {

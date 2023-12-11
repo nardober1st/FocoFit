@@ -37,6 +37,7 @@ import com.fitfoco.focofit.ui.theme.Blue02
 import com.fitfoco.focofit.viewmodel.HomeViewModel
 import androidx.compose.material.Surface
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -127,7 +128,6 @@ fun HomeScreen(
                 db.salvePic(fotoPerfil!!, context)
             }
         }
-
     Scaffold(
         topBar = {
             TopAppBar(
