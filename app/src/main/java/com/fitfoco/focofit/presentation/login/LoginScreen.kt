@@ -2,6 +2,7 @@ package com.fitfoco.focofit.presentation.login
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.fitfoco.focofit.R
 import com.fitfoco.focofit.components.ButtonEdit
 import com.fitfoco.focofit.components.EditText
@@ -61,6 +67,33 @@ fun LoginScreen(
 ) {
 
     val context = LocalContext.current
+
+    val callback = remember {
+        CallbackManager.Factory.create()
+    }
+
+    val fbLauncher = rememberLauncherForActivityResult(
+        LoginManager.getInstance()
+            .createLogInActivityResultContract(callback)
+    ) { result ->
+        LoginManager.getInstance().onActivityResult(
+            result.resultCode,
+            result.data,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    navController.navigate(RootGraphRoutes.MainGraphRoute.route)
+                }
+
+                override fun onCancel() {
+                    println("onCancel")
+                }
+
+                override fun onError(error: FacebookException) {
+                    println("onError $error")
+                }
+            }
+        )
+    }
 
     var email by remember {
         mutableStateOf("")
@@ -206,7 +239,7 @@ fun LoginScreen(
                     })
 
                 Button(
-                    onClick = { },
+                    onClick = { fbLauncher.launch(listOf("email", "business_management")) },
                     modifier = Modifier
                         .border(2.dp, White, ShapeEdit.medium)
                         .constrainAs(face) {

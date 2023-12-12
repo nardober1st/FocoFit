@@ -54,6 +54,8 @@ android {
 
 dependencies {
 
+    implementation ("com.facebook.android:facebook-login:latest.release")
+
     implementation ("com.github.skydoves:landscapist-glide:2.2.12")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
