@@ -9,7 +9,7 @@ import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.fitfoco.focofit.presentation.objective.ObjetivosScreen
 import com.fitfoco.focofit.presentation.others.AlongamentosScreen
 import com.fitfoco.focofit.presentation.others.Calories
-import com.fitfoco.focofit.presentation.others.IMC
+import com.fitfoco.focofit.presentation.imc.ImcScreen
 import com.fitfoco.focofit.presentation.others.NotificacoesScreen
 import com.fitfoco.focofit.presentation.others.RotinasDiariasScreen
 
@@ -19,7 +19,7 @@ fun NavGraphBuilder.homeNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.Home.route
     ) {
         composable(route = Screen.IMC.route) {
-            IMC()
+            ImcScreen()
         }
         composable(route = Screen.Calories.route) {
             Calories()

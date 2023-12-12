@@ -27,6 +27,9 @@ class DataSourceAuth @Inject constructor(
     private val _name = MutableStateFlow("")
     private val name: StateFlow<String> = _name
 
+    private val _imc = MutableStateFlow("")
+    private val imc: StateFlow<String> = _imc
+
     fun signup(
         user: User,
         senha: String,
@@ -137,6 +140,18 @@ class DataSourceAuth @Inject constructor(
             }
         }
         return name
+    }
+
+    fun imcResult(): StateFlow<String> {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+        firestore.collection("goals").document(userId).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val imc = it.result.getString("imc").toString()
+                _imc.value = imc
+            }
+        }
+        return imc
     }
 
     fun signUserOut() {

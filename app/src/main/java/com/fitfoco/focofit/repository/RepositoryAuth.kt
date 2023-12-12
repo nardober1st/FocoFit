@@ -41,6 +41,10 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
         return dataSourceAuth.userName()
     }
 
+    fun imcResult(): Flow<String>{
+        return dataSourceAuth.imcResult()
+    }
+
     fun signUserOut() {
         dataSourceAuth.signUserOut()
     }
