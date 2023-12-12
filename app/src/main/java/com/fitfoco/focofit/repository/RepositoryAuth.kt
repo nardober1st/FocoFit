@@ -3,6 +3,7 @@ package com.fitfoco.focofit.repository
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.datasource.DataSourceAuth
 import com.fitfoco.focofit.listener.ListenerAuth
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -37,12 +38,16 @@ class RepositoryAuth @Inject constructor(private val dataSourceAuth: DataSourceA
         return dataSourceAuth.isUserSignedIn()
     }
 
-    fun userName(): Flow<String>{
+    fun userName(): Flow<String> {
         return dataSourceAuth.userName()
     }
 
-    fun imcResult(): Flow<String>{
+    fun imcResult(): Flow<String> {
         return dataSourceAuth.imcResult()
+    }
+
+    fun googleSignIn(credential: AuthCredential, listenerAuth: ListenerAuth) {
+        dataSourceAuth.googleSignIn(credential, listenerAuth)
     }
 
     fun signUserOut() {

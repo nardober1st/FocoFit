@@ -2,6 +2,8 @@ package com.fitfoco.focofit.presentation.login
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,11 @@ import com.fitfoco.focofit.ui.theme.BlueBackground
 import com.fitfoco.focofit.ui.theme.Outline
 import com.fitfoco.focofit.ui.theme.ShapeEdit
 import com.fitfoco.focofit.ui.theme.White
+import com.fitfoco.focofit.util.Constants.ID_TOKEN
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,8 +66,30 @@ import com.fitfoco.focofit.ui.theme.White
 fun LoginScreen(
     navController: NavController, viewModel: LoginViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current
+
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            try {
+                val result = account.getResult(ApiException::class.java)
+                val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
+                viewModel.googleSignIn(credentials, object : ListenerAuth {
+                    override fun onSuccess(message: String, screen: String) {
+                        navController.popBackStack()
+                        navController.navigate(RootGraphRoutes.MainGraphRoute.route)
+                    }
+
+                    override fun onFailure(error: String) {
+                        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                    }
+
+                })
+            } catch (it: ApiException) {
+                print(it)
+            }
+        }
+
 
     var email by remember {
         mutableStateOf("")
@@ -226,7 +255,15 @@ fun LoginScreen(
                 }
 
                 Button(
-                    onClick = { },
+                    onClick = {
+                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .requestIdToken(ID_TOKEN)
+                            .build()
+
+                        val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                        launcher.launch(googleSignInClient.signInIntent)
+                    },
                     modifier = Modifier
                         .border(2.dp, Black, ShapeEdit.medium)
                         .constrainAs(gmail) {

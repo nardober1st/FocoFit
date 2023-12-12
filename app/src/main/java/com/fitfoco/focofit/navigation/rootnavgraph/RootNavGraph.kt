@@ -23,7 +23,10 @@ import kotlinx.coroutines.flow.collect
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavigationGraph(
+    navController: NavHostController,
+    startDestination: String
+) {
 
     val mainViewModel: MainViewModel = hiltViewModel()
 
@@ -53,10 +56,10 @@ fun RootNavigationGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = RootGraphRoutes.RootGraphRoute.route,
-        startDestination = Screen.Splash.route
+        startDestination = startDestination
     ) {
         composable(route = Screen.Splash.route) {
-            Splash(navController = navController)
+            Splash()
         }
         authNavGraph(navController)
         composable(route = RootGraphRoutes.MainGraphRoute.route) {

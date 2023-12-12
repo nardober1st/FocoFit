@@ -4,7 +4,9 @@ import android.util.Log
 import com.fitfoco.focofit.data.model.User
 import com.fitfoco.focofit.listener.ListenerAuth
 import com.fitfoco.focofit.navigation.authnavgraph.AuthRoutes
+import com.fitfoco.focofit.navigation.rootnavgraph.RootGraphRoutes
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class DataSourceAuth @Inject constructor(
@@ -29,6 +32,21 @@ class DataSourceAuth @Inject constructor(
 
     private val _imc = MutableStateFlow("")
     private val imc: StateFlow<String> = _imc
+
+    fun googleSignIn(credential: AuthCredential, listenerAuth: ListenerAuth) {
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                listenerAuth.onSuccess("Logado com sucesso!", RootGraphRoutes.MainGraphRoute.route)
+            }
+        }.addOnFailureListener { exception ->
+            val error = when (exception) {
+                is FirebaseNetworkException -> "No internet connection"
+                else -> "Unkown Error"
+            }
+            listenerAuth.onFailure(error)
+        }
+
+    }
 
     fun signup(
         user: User,
@@ -113,8 +131,29 @@ class DataSourceAuth @Inject constructor(
         }
     }
 
+//    fun isUserSignedIn(): Flow<Boolean> {
+//        return callbackFlow {
+//            val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+//                val user = firebaseAuth.currentUser
+//                trySend(user != null)
+//            }
+//
+//            // Add the listener to FirebaseAuth
+//            firebaseAuth.addAuthStateListener(authStateListener)
+//
+//            // Remove the listener when the flow is cancelled
+//            awaitClose {
+//                firebaseAuth.removeAuthStateListener(authStateListener)
+//            }
+//        }
+//    }
+
     fun isUserSignedIn(): Flow<Boolean> {
         return callbackFlow {
+            // Immediate check for the current user's sign-in status
+            val isSignedIn = firebaseAuth.currentUser != null
+            trySend(isSignedIn)
+
             val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
                 val user = firebaseAuth.currentUser
                 trySend(user != null)

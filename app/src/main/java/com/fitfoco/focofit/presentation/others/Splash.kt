@@ -45,47 +45,11 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 @Composable
-fun Splash(
-    navController: NavController,
-){
-
-    val loginViewModel: LoginViewModel = hiltViewModel()
-
-    val mainViewModel: MainViewModel = hiltViewModel()
-
-    val isUserSignedIn by mainViewModel.isUserSignedIn().collectAsState(initial = false)
-
-//    // Listen for changes in sign-out status using LaunchedEffect
-//    LaunchedEffect(isUserSignedIn) {
-//        mainViewModel.mainChannelEvent.collect { event ->
-//            Log.d("TAGY", "Received event: $event")
-//            when (event) {
-//                is MainEvent.OnSignOutClick -> {
-//                    Log.d("TAGY", "Navigating to AuthGraphRoute")
-//                    // Update the navigation to AuthGraph after sign-out event
-//                    navController.popBackStack()
-//                    navController.navigate(RootGraphRoutes.AuthGraphRoute.route) {
-////                        // Clear back stack so pressing back won't return to MainGraph
-////                        Log.d("TAGY", "User: ${FirebaseAuth.getInstance().currentUser}")
-////                        popUpTo(navController.graph.startDestinationId) {
-////                            inclusive = true
-////                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
+fun Splash() {
     LaunchedEffect(key1 = true) {
-        delay(2500)
-        // Check if the user is signed in and navigate accordingly
-        navController.popBackStack()
-        navController.navigate(
-            if (isUserSignedIn) RootGraphRoutes.MainGraphRoute.route
-            else RootGraphRoutes.AuthGraphRoute.route
-        )
+        delay(2500) // Delay for the splash screen
     }
-    SplashScreen()
+    SplashScreen() // Your splash screen UI
 }
 
 
